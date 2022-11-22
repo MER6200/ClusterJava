@@ -31,7 +31,7 @@ public class Kmean {
         }
         this.centre = KmeanPP(k, adr);
         this.clusters_index = Clustering(adr,centre,max_iter,limit_tol);
-        System.out.println("Liste des clusters : "+clusters_index);
+        System.out.println("Liste des clusters : "+clusters_index.size());
     }
 
     private ArrayList<Integer> Clustering(ArrayList<Adress> adr,ArrayList<Adress> centre, int max_iter,double limit_tol) {
@@ -39,7 +39,12 @@ public class Kmean {
         int count = 0;
 
         while (count <= max_iter && limit_tol < mean_tol) {
-
+            for( int i=0; i<k; i++)
+            {
+                clu.get(i).getAdr().clear();
+            }
+            clusters_index.clear();
+            System.out.println(adr.size());
             for (int i = 0; i < adr.size(); i++) {
                 double dist = Double.POSITIVE_INFINITY;
                 int ind = 0;
@@ -81,22 +86,25 @@ public class Kmean {
 
         private ArrayList<Adress> KmeanPP (int k,ArrayList<Adress> adr){
 
+        ArrayList<Adress> tmp_adr = (ArrayList<Adress>) adr.clone();
+
         Adress initialisation;
         //Pour choisir le premier point aleatoire
         Random aleatoire = new Random();
-        initialisation = adr.get(aleatoire.nextInt(adr.size()));
+        initialisation = tmp_adr.get(aleatoire.nextInt(tmp_adr.size()));
         centre.add(initialisation);
+        tmp_adr.remove(initialisation);
 
-        adr.remove(initialisation);
         for(int j = 0; j<k-1;j++)
         {
             ArrayList<Double> distance = new ArrayList<>();
+            distance.clear();
 
-            for( int i=0; i<adr.size();i++)
+            for( int i=0; i<tmp_adr.size();i++)
             {
                 // Calcul de la distance au carré que l'on stock dans le tableau
-                distance.add(Math.pow(initialisation.getLat()-adr.get(i).getLat(),2)+
-                        Math.pow(initialisation.getLon()-adr.get(i).getLon(),2));
+                distance.add(Math.pow(initialisation.getLat()-tmp_adr.get(i).getLat(),2)+
+                        Math.pow(initialisation.getLon()-tmp_adr.get(i).getLon(),2));
             }
 
             double somme = 0;
@@ -120,8 +128,8 @@ public class Kmean {
             {
                 if( distance.get(b)/aleatoireTpm <= 1  )
                 {
-                    centre.add(adr.get(b));
-                    adr.remove(adr.get(b));
+                    centre.add(tmp_adr.get(b));
+                    tmp_adr.remove(tmp_adr.get(b));
                     break;
                 }
             }

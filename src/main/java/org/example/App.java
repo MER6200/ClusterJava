@@ -26,6 +26,7 @@ public class App
         long start = System.currentTimeMillis();
         Kmean test = new Kmean(3,adr,100,0.005);
         clu = test.getClu();
+
         System.out.println("Runtime : "+(System.currentTimeMillis() - start)+"ms");
         System.out.println(clu);
         //affichage des points
@@ -46,6 +47,7 @@ public class App
         Warehouse.setRue("ICI");
         Warehouse.setLat(50.809047);
         Warehouse.setLon(4.441386);
+
 
         ToJson fin =new ToJson();
         fin.setWarehouse(Warehouse);
