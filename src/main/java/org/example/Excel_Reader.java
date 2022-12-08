@@ -47,8 +47,8 @@ public class Excel_Reader {
         this.rows = worksheet.getCells().getMaxDataRow();
         this.columns = worksheet.getCells().getMaxDataColumn();
 
-        System.out.println("Le nombre de ligne est de :"+rows+"\net il y a "+columns+" colones.");
-        for (int i = 1; i < 81; i++) {
+        //System.out.println("Le nombre de ligne est de :"+rows+"\net il y a "+columns+" colones.");
+        for (int i = 1; i < 151; i++) {
 
             // Boucle sur chaque colonne de la ligne sélectionnée
             Adress address = new Adress();
@@ -56,7 +56,7 @@ public class Excel_Reader {
 
                 if(j==0){
                     String nom = worksheet.getCells().get(i, j).getValue().toString();
-                    address.setRue((nom));
+                    address.setCluId((nom));
 
                 } else if (j==1) {
 

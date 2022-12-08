@@ -4,7 +4,10 @@ public class Adress {
 
     private  double lat;
     private  double lon;
+
     private  String rue;
+
+
 
 //    public Adress(int lat, int lon, String rue) {
 //        this.lat = lat;
@@ -19,7 +22,7 @@ public class Adress {
         return lon;
     }
 
-    public String getRue() {
+    public String getcluId() {
         return rue;
     }
 
@@ -31,7 +34,7 @@ public class Adress {
         this.lon = lon;
     }
 
-    public void setRue(String rue) {
-        this.rue = rue;
+    public void setCluId(String cluId) {
+        this.rue = cluId;
     }
 }

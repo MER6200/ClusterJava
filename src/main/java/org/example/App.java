@@ -1,5 +1,5 @@
 package org.example;
-
+// TODO Rajouter les id dans les adress
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,31 +22,45 @@ public class App
         fichier.read("inputClustering.xlsx");
         adr = fichier.getAdr();
 
+        Correction correction = new Correction();
+
         ArrayList<Cluster> clu = new ArrayList<>();
         long start = System.currentTimeMillis();
-        Kmean test = new Kmean(3,adr,100,0.005);
+        Kmean test = new Kmean(5,adr,400,0.005);
         clu = test.getClu();
+        ArrayList<Integer> corrected_index;
+        corrected_index = correction.CorrectionAlgorithm(test.getCentre(),0.8,0.2,200,test.getClusters_index(),adr);
 
         System.out.println("Runtime : "+(System.currentTimeMillis() - start)+"ms");
-        System.out.println(clu);
+
+        System.out.println(corrected_index);
+        //System.out.println(clu);
         //affichage des points
         int total = 0;
 
-        for (int i = 0; i < clu.size(); i++) {
-            //System.out.println("Cluster : " + (i +1));
-            total = total + clu.get(i).getAdr().size();
-//            for (int j = 0; j < clu.get(i).getAdr().size(); j++) {
-                System.out.println(" il y' a  "+ clu.get(i).getAdr().size());
-//            }
-        }
-        System.out.println(total);
+
+        //System.out.println(total);
 
         //ArrayList<Cluster> cluJ = new ArrayList<>();
         Adress Warehouse = new Adress();
 
-        Warehouse.setRue("ICI");
+        Warehouse.setCluId("ICI");
         Warehouse.setLat(50.809047);
         Warehouse.setLon(4.441386);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         ToJson fin =new ToJson();

@@ -17,6 +17,7 @@ public class Kmean {
 
     private int k;
 
+
     //Constructor pour initialiser les cluster et ensuite les centroid
     Kmean(int k,ArrayList<Adress> adr, int max_iter,double limit_tol  )
     {
@@ -31,20 +32,20 @@ public class Kmean {
         }
         this.centre = KmeanPP(k, adr);
         this.clusters_index = Clustering(adr,centre,max_iter,limit_tol);
-        System.out.println("Liste des clusters : "+clusters_index.size());
+        //System.out.println("Liste des clusters : "+clusters_index.size());
     }
 
     private ArrayList<Integer> Clustering(ArrayList<Adress> adr,ArrayList<Adress> centre, int max_iter,double limit_tol) {
         double mean_tol = Double.POSITIVE_INFINITY;
         int count = 0;
 
-        while (count <= max_iter && limit_tol < mean_tol) {
+        while (count < max_iter && limit_tol < mean_tol) {
             for( int i=0; i<k; i++)
             {
                 clu.get(i).getAdr().clear();
             }
             clusters_index.clear();
-            System.out.println(adr.size());
+            //tem.out.println(adr.size());
             for (int i = 0; i < adr.size(); i++) {
                 double dist = Double.POSITIVE_INFINITY;
                 int ind = 0;
@@ -59,6 +60,7 @@ public class Kmean {
                 }
                 clu.get(ind).getAdr().add(adr.get(i));
                 clusters_index.add(ind);
+
             }
 
             mean_tol = 0;
@@ -66,8 +68,8 @@ public class Kmean {
                 double mean_lon = 0;
                 double mean_lat = 0;
                 for (int l = 0; l < clu.get(j).getAdr().size(); l++) {
-                    mean_lon = clu.get(j).getAdr().get(l).getLon();
-                    mean_lat = clu.get(j).getAdr().get(l).getLat();
+                    mean_lon = clu.get(j).getAdr().get(l).getLon() + mean_lon;
+                    mean_lat = clu.get(j).getAdr().get(l).getLat() + mean_lat;
                 }
 
                 if (clu.get(j).getAdr().isEmpty() == false) {
@@ -175,5 +177,13 @@ public class Kmean {
 
     public void setClu(ArrayList<Cluster> clu) {
         this.clu = clu;
+    }
+
+    public ArrayList<Adress> getCentre() {
+        return centre;
+    }
+
+    public ArrayList<Integer> getClusters_index() {
+        return clusters_index;
     }
 }
