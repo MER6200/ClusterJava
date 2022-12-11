@@ -10,47 +10,19 @@ public class Correction {
     public ArrayList<Adress> closestPointInClu = new ArrayList<>();
     public ArrayList<Adress> closetPoint = new ArrayList<>();
 
+
+
     public ArrayList<Integer> listePointCluster  = new ArrayList<>();
 
+    public ArrayList<Integer> corrected_index;
 
-    public ArrayList<Adress> getAdr() {
-        return adr;
+    public ArrayList<Integer> getCorrected_index() {
+        return corrected_index;
     }
+
 
     public void setAdr(ArrayList<Adress> adr) {
         this.adr = adr;
-    }
-
-    public ArrayList<Adress> getClosestPointInClu() {
-        return closestPointInClu;
-    }
-
-    public ArrayList<Adress> getClosetPoint() {
-        return closetPoint;
-    }
-
-    public void setClosestPointInClu(ArrayList<Adress> closestPointInClu) {
-        this.closestPointInClu = closestPointInClu;
-    }
-
-    public void setClosetPoint(ArrayList<Adress> closetPoint) {
-        this.closetPoint = closetPoint;
-    }
-
-    public void setMatrix(Double [][]matrix) {
-        this.matrix = matrix;
-    }
-
-    public Double [][] getMatrix() {
-        return matrix;
-    }
-
-    public void setListePointCluster(ArrayList<Integer> listePointCluster) {
-        this.listePointCluster = listePointCluster;
-    }
-
-    public ArrayList<Integer> getListePointCluster() {
-        return listePointCluster;
     }
 
     public Double Distance(Adress a1, Adress a2)
@@ -88,9 +60,7 @@ public class Correction {
                 }
             }
             closestPointInClu.add(point);
-
         }
-
     }
 
     public  void ComputeClosestPoint(ArrayList<Integer> indexClu)
@@ -112,7 +82,6 @@ public class Correction {
             closetPoint.add(point);
             listePointCluster.add(pointCluster);
         }
-
     }
 
     public Double Cost(double a1, double a2, Adress adr1, Adress cpic, Adress center)
@@ -124,11 +93,12 @@ public class Correction {
         return a1*d1+a2*d2;
     }
 
-    public ArrayList<Integer> CorrectionAlgorithm(ArrayList<Adress> centre,double a1, double a2, int maxIter2,ArrayList<Integer> indexClu, ArrayList<Adress> adr)
+    Correction(ArrayList<Adress> centre,double a1, double a2, int maxIter2,ArrayList<Integer> indexClu, ArrayList<Adress> adr)
     {
         setAdr(adr);
         Matrix();
         int count = 0;
+
         while(count<maxIter2)
         {
             ComputeClosestPointInCluster(indexClu);
@@ -149,17 +119,8 @@ public class Correction {
              }
              count +=1;
         }
-        return indexClu;
+        corrected_index = indexClu;
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
 }

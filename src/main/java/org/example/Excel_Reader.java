@@ -1,14 +1,8 @@
 package org.example;
+
 import com.aspose.cells.Workbook;
 import com.aspose.cells.Worksheet;
-
-
-
 import java.util.ArrayList;
-
-
-
-
 
 public class Excel_Reader {
 
@@ -20,26 +14,6 @@ public class Excel_Reader {
         return adr;
     }
 
-    public void setAdr(ArrayList<Adress> adr) {
-        this.adr = adr;
-    }
-
-    public int getColumns() {
-        return columns;
-    }
-
-    public int getRows() {
-        return rows;
-    }
-
-    public void setColumns(int columns) {
-        this.columns = columns;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
     public void read(String path) throws Exception {
 
         Workbook wb =  new Workbook(path);
@@ -47,8 +21,7 @@ public class Excel_Reader {
         this.rows = worksheet.getCells().getMaxDataRow();
         this.columns = worksheet.getCells().getMaxDataColumn();
 
-        //System.out.println("Le nombre de ligne est de :"+rows+"\net il y a "+columns+" colones.");
-        for (int i = 1; i < 151; i++) {
+        for (int i = 1; i < 81; i++) {
 
             // Boucle sur chaque colonne de la ligne sélectionnée
             Adress address = new Adress();
@@ -66,10 +39,8 @@ public class Excel_Reader {
 
                     address.setLon(worksheet.getCells().get(i, j).getDoubleValue());
                 }
-
             }
             this.adr.add(address);
         }
     }
-
 }

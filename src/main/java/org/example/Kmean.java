@@ -1,8 +1,6 @@
 package org.example;
 
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 import java.lang.Math;
 
@@ -10,13 +8,9 @@ public class Kmean {
 
     private ArrayList<Adress> adr= new ArrayList();
     private ArrayList<Cluster> clu = new ArrayList<>();
-
     private ArrayList<Adress> centre= new ArrayList();
-
     private ArrayList<Integer> clusters_index = new ArrayList();
-
     private int k;
-
 
     //Constructor pour initialiser les cluster et ensuite les centroid
     Kmean(int k,ArrayList<Adress> adr, int max_iter,double limit_tol  )
@@ -32,7 +26,6 @@ public class Kmean {
         }
         this.centre = KmeanPP(k, adr);
         this.clusters_index = Clustering(adr,centre,max_iter,limit_tol);
-        //System.out.println("Liste des clusters : "+clusters_index.size());
     }
 
     private ArrayList<Integer> Clustering(ArrayList<Adress> adr,ArrayList<Adress> centre, int max_iter,double limit_tol) {
@@ -45,7 +38,6 @@ public class Kmean {
                 clu.get(i).getAdr().clear();
             }
             clusters_index.clear();
-            //tem.out.println(adr.size());
             for (int i = 0; i < adr.size(); i++) {
                 double dist = Double.POSITIVE_INFINITY;
                 int ind = 0;
@@ -83,6 +75,7 @@ public class Kmean {
                 count = +1;
             }
         }
+
         return clusters_index;
     }
 
