@@ -10,19 +10,23 @@ import java.util.ArrayList;
 
 public class App
 {
-
     public static void main( String[] args ) throws Exception {
-
-        int k = 4;
-
+        // Variable
+        int k =2; //CLuster
+        ArrayList<Adress> adr = new ArrayList<>(); //Liste qui contient toute les adresses
 
         //Excel reading
-        ArrayList<Adress> adr = new ArrayList<>();
-        Excel_Reader fichier = new Excel_Reader();
-        fichier.read("inputClustering.xlsx");
-        adr = fichier.getAdr();
+//       Excel_Reader fichier = new Excel_Reader();
+//       fichier.read("inputClustering.xlsx");
+//       adr = fichier.getAdr();
+
+        // Sql Reading data
+        SqlReader sql = new SqlReader();
+        sql.readBd("jdbc:mysql://localhost:3306/itoptics?useSSL=false&serverTimezone=UTC");
+        adr = sql.getAdr();
 
         //Set a warehouse
+        //TODO Fonction lecture warehouse
         Adress Warehouse = new Adress();
         Warehouse.setCluId("ICI");
         Warehouse.setLat(50.809047);
@@ -49,7 +53,6 @@ public class App
 
 
         // Connection BD et insertion
-        Class.forName("com.mysql.cj.jdbc.Driver");
             try {
                 Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/itoptics?useSSL=false&serverTimezone=UTC", "root","");
                 Statement stmt1 = con.createStatement();
@@ -60,21 +63,18 @@ public class App
 
                 for(int i = 0;i< kmean1.getClu().size();i++) {
 
-                 PreparedStatement prstm = con.prepareStatement("INSERT INTO cluster_model(id,user_id,name_region,number_of_point) VALUES(?,?,?,?);");
+                 PreparedStatement prstm = con.prepareStatement("INSERT INTO cluster_model(id,user_id,number_of_point) VALUES(?,?,?);");
                  prstm.setInt(1,i+1);
                  prstm.setInt(2,1);
-                 prstm.setString(3,"Belgique");
-
-                 prstm.setInt(4,kmean1.getClu().get(i).getAdr().size());
+                 prstm.setInt(3,kmean1.getClu().get(i).getAdr().size());
                  prstm.execute();
 
                  for(int j = 0;j<kmean1.getClu().get(i).getAdr().size();j++) {
                      taille++;
-                     PreparedStatement prstm1 = con.prepareStatement("INSERT INTO cluster_data_model(id,cluster_id,longitude,latitude) VALUES(?,?,?,?);");
+                     PreparedStatement prstm1 = con.prepareStatement("INSERT INTO cluster_data_model(id,cluster_id,mission_id) VALUES(?,?,?);");
                      prstm1.setInt(1,taille);
                      prstm1.setInt(2, i+ 1);
-                     prstm1.setDouble(3,kmean1.getClu().get(i).getAdr().get(j).getLon() );
-                     prstm1.setDouble(4,kmean1.getClu().get(i).getAdr().get(j).getLat());
+                     prstm1.setInt(3,kmean1.getClu().get(i).getAdr().get(j).getID());
                      prstm1.execute();
                  }
                 }
@@ -85,14 +85,12 @@ public class App
                 e.printStackTrace();
             }
 
-
         //Json writing
         ToJson fin =new ToJson();
         fin.setWarehouse(Warehouse);
-
         fin.setClusters(kmean1.getClu());
-
-        try (Writer writer = new FileWriter("CluJson.json")) {
+        //C:\Users\hmero\OneDrive\Bureau\MapUmonsProject-main\src\VehicleRoutingPojo.json
+        try (Writer writer = new FileWriter("VehicleRoutingPojo.json")) {
             Gson gsonW = new GsonBuilder().create();
             gsonW.toJson(fin, writer);
         }

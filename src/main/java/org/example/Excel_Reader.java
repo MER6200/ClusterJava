@@ -21,7 +21,7 @@ public class Excel_Reader {
         this.rows = worksheet.getCells().getMaxDataRow();
         this.columns = worksheet.getCells().getMaxDataColumn();
 
-        for (int i = 1; i < 81; i++) {
+        for (int i = 1; i <11; i++) {
 
             // Boucle sur chaque colonne de la ligne sélectionnée
             Adress address = new Adress();
